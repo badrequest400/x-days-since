@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import moment from 'moment';
+import Head from 'next/head';
 
-const baseUrl = `${process.env.BASE_URI}/api`
+const baseUrl = `${process.env.NEXT_PUBLIC_BASE_URI}/api`
 
 const formatDate = (date) => {
-  const duration = moment.duration(moment().diff(moment(date)));
-  return duration.asDays();
+  const duration = moment.duration(moment().diff(moment(parseInt(date, 10))));
+  const days = Math.floor(duration.asDays());
+  const hrs = Math.floor(duration.asHours());
+  const hours = days > 0 ? hrs - (days * 24) : hrs;
+  return { days, hours };
 }
 
 const handleClick = (tech, setter) => async () => {
-  const res = await fetch(`${baseUrl}/api/${tech}`, {
+  const res = await fetch(`${baseUrl}/tech/${tech}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -29,47 +33,83 @@ export default function Index(props) {
 
   return (
     <div>
-      <h1>{formatDate(prettier)} days since slagging off Prettier</h1>
-      <button onClick={handleClick('prettier', setPrettier)} >Reset Prettier</button>
+      <Head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=JetBrains+Mono"></link>
+      </Head>
+      <h1>{formatDate(prettier).days} days and {formatDate(prettier).hours} hours since slagging off Prettier</h1>
+      <button onClick={handleClick('prettier', setPrettier)}>Reset Prettier</button>
 
-      <h1>{formatDate(ts)} days since bitching aboout TypeScript</h1>
-      <button onClick={handleClick('ts', setTs)} >Reset TS</button>
+      <h1>{formatDate(ts).days} days and {formatDate(ts).hours} hours since bitching aboout TypeScript</h1>
+      <button onClick={handleClick('ts', setTs)}>Reset TS</button>
 
-      <h1>{formatDate(webstorm)} days since taking the piss out of Plebstorm</h1>
-      <button onClick={handleClick('webstorm', setWebstorm)} >Reset Plebstorm</button>
+      <h1>{formatDate(webstorm).days} days and {formatDate(webstorm).hours} hours since taking the piss out of Plebstorm</h1>
+      <button onClick={handleClick('webstorm', setWebstorm)}>Reset Plebstorm</button>
 
-      <h1>{formatDate(vscode)} days since taking the mickey out of VSCode</h1>
-      <button onClick={handleClick('vscode', setVscode)} >Reset VSCode</button>
+      <h1>{formatDate(vscode).days} days and {formatDate(vscode).hours} hours since saying VSCode is the worst</h1>
+      <button onClick={handleClick('vscode', setVscode)}>Reset VSCode</button>
 
-      <h1>{formatDate(firefox)} days since FireFox was blamed for a genuine bug</h1>
-      <button onClick={handleClick('firefox', setFirefox)} >Reset FireFox</button>
+      <h1>{formatDate(firefox).days} days and {formatDate(firefox).hours} hours since FireFox was blamed for a bug</h1>
+      <button onClick={handleClick('firefox', setFirefox)}>Reset FireFox</button>
 
       <style jsx>{`
         div {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          grid-gap: 20px;
-          padding: 1rem;
+          height: 100%;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         } 
+        h1 {
+          margin-bottom: 30px;
+          color: white;
+        }
+        button {
+          border: solid 2px #b030b0;
+          background-color: #202060;
+          border-radius: 24px;
+          padding: 12px;
+          color: #b030b0;
+          max-width: 20%;
+          font-weight: 800;
+          font-size: 20px;
+          cursor: pointer;
+        }
+        button:hover {
+          background-color: #b030b0;
+          color: white;
+        }
+      `}</style>
+
+      <style jsx global>{`
+        body {
+          height: 100%;
+          margin: 0;
+          background-attachment: fixed;
+          background-image: linear-gradient(#202060 50%, #602080);
+          background-repeat: no-repeat;
+          font-family: "JetBrains Mono";
+        }
       `}</style>
     </div>
   );
 }
 
-Index.getInitialProps = async () => {
+export const getServerSideProps = async () => {
   const baseUrl = `${process.env.BASE_URI}/api`
 
-  const prettier = await fetch(`${baseUrl}?tech=prettier`);
-  const ts = await fetch(`${baseUrl}?tech=ts`);
-  const webstorm = await fetch(`${baseUrl}?tech=webstorm`);
-  const vscode = await fetch(`${baseUrl}?tech=vscode`);
-  const firefox = await fetch(`${baseUrl}?tech=firefox`);
+  const prettier = await (await fetch(`${baseUrl}?tech=prettier`)).json();
+  const ts = await (await fetch(`${baseUrl}?tech=ts`)).json();
+  const webstorm = await (await fetch(`${baseUrl}?tech=webstorm`)).json();
+  const vscode = await (await fetch(`${baseUrl}?tech=vscode`)).json();
+  const firefox = await (await fetch(`${baseUrl}?tech=firefox`)).json()
 
   return {
-    prettier,
-    ts,
-    webstorm,
-    vscode,
-    firefox,
+    props: {
+      prettier: prettier.date,
+      ts: ts.date,
+      webstorm: webstorm.date,
+      vscode: vscode.date,
+      firefox: firefox.date,
+    }
   }
 }
