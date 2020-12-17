@@ -5,10 +5,9 @@ const client = redis.createClient(process.env.REDIS_URL)
 const getAsync = promisify(client.get).bind(client);
 
 export default async function handler(req, res) {
-  const tech = req.query.tech;
-  const result = await getAsync(tech);
+  const { query: { tech } } = req;
 
-  res.statusCode = 200
+  const result = await getAsync(tech);
   res.setHeader('Content-Type', 'application/json')
-  res.end(JSON.stringify({ date: result }));
+  res.status(200).json({ date: result });
 }
