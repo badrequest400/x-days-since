@@ -48,8 +48,8 @@ export default function Index(props) {
       <h1>{formatDate(vscode).days} days and {formatDate(vscode).hours} hours since saying VSCode is the worst</h1>
       <button onClick={handleClick('vscode', setVscode)}>Reset VSCode</button>
 
-      <h1>{formatDate(firefox).days} days and {formatDate(firefox).hours} hours since FireFox was blamed for a bug</h1>
-      <button onClick={handleClick('firefox', setFirefox)}>Reset FireFox</button>
+      <h1>{formatDate(firefox).days} days and {formatDate(firefox).hours} hours since DireFox was blamed for a bug</h1>
+      <button onClick={handleClick('firefox', setFirefox)}>Reset DireFox</button>
 
       <style jsx>{`
         div {
