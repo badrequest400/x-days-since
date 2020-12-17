@@ -39,7 +39,7 @@ export default function Index(props) {
       <h1>{formatDate(prettier).days} days and {formatDate(prettier).hours} hours since slagging off Prettier</h1>
       <button onClick={handleClick('prettier', setPrettier)}>Reset Prettier</button>
 
-      <h1>{formatDate(ts).days} days and {formatDate(ts).hours} hours since bitching aboout TypeScript</h1>
+      <h1>{formatDate(ts).days} days and {formatDate(ts).hours} hours since bitching about TypeScript</h1>
       <button onClick={handleClick('ts', setTs)}>Reset TS</button>
 
       <h1>{formatDate(webstorm).days} days and {formatDate(webstorm).hours} hours since taking the piss out of Plebstorm</h1>
