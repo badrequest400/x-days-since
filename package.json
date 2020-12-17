@@ -7,7 +7,7 @@
     "start": "npm run dev",
     "dev": "next",
     "build": "next build",
-    "serve": "next start",
+    "serve": "next start -p $PORT",
     "lint": "eslint . --ext .ts"
   },
   "author": "Balazs Cseh",

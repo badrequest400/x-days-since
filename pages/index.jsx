@@ -2,7 +2,8 @@ import React from 'react';
 import moment from 'moment';
 
 const formatDate = (date) => {
-  moment(date);
+  const duration = moment.duration(moment().diff(moment(date)));
+  return duration.asDays();
 }
 
 export default function Index(props) {
