@@ -95,7 +95,7 @@ export default function Index(props) {
 }
 
 export const getServerSideProps = async () => {
-  const baseUrl = `${process.env.BASE_URI}/api`
+  const baseUrl = `${process.env.NEXT_PUBLIC_BASE_URI}/api`
 
   const prettier = await (await fetch(`${baseUrl}?tech=prettier`)).json();
   const ts = await (await fetch(`${baseUrl}?tech=ts`)).json();
