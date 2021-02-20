@@ -16,7 +16,7 @@ const runMiddleware = mw => (req, res) =>
   });
 
 const cors = Cors({
-  methods: [ 'HEAD', 'GET', 'PUT' ],
+  methods: [ 'HEAD', 'OPTIONS', 'GET', 'PUT' ],
 });
 
 const runCors = runMiddleware(cors);
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     method,
   } = req;
 
-  await runCors();
+  await runCors(req, res);
 
   switch (method) {
     case 'GET': {
