@@ -28,7 +28,7 @@ export default function Index(props) {
   const [ prettier, setPrettier ] = useState(props.prettier);
   const [ ts, setTs ] = useState(props.ts);
   const [ webstorm, setWebstorm ] = useState(props.webstorm);
-  const [ vscode, setVscode ] = useState(props.vscode);
+  const [ oni, setOni ] = useState(props.oni);
   const [ firefox, setFirefox ] = useState(props.firefox);
 
   return (
@@ -45,8 +45,8 @@ export default function Index(props) {
       <h1>{formatDate(webstorm).days} days and {formatDate(webstorm).hours} hours since taking the piss out of Plebstorm</h1>
       <button onClick={handleClick('webstorm', setWebstorm)}>Reset Plebstorm</button>
 
-      <h1>{formatDate(vscode).days} days and {formatDate(vscode).hours} hours since saying VSCode is the worst</h1>
-      <button onClick={handleClick('vscode', setVscode)}>Reset VSCode</button>
+      <h1>{formatDate(oni).days} days and {formatDate(oni).hours} hours since creating a new file in Oni</h1>
+      <button onClick={handleClick('oni', setOni)}>Reset OniVim2</button>
 
       <h1>{formatDate(firefox).days} days and {formatDate(firefox).hours} hours since DireFox was blamed for a bug</h1>
       <button onClick={handleClick('firefox', setFirefox)}>Reset DireFox</button>
@@ -100,7 +100,7 @@ export const getServerSideProps = async () => {
   const prettier = await (await fetch(`${baseUrl}?tech=prettier`)).json();
   const ts = await (await fetch(`${baseUrl}?tech=ts`)).json();
   const webstorm = await (await fetch(`${baseUrl}?tech=webstorm`)).json();
-  const vscode = await (await fetch(`${baseUrl}?tech=vscode`)).json();
+  const oni = await (await fetch(`${baseUrl}?tech=oni`)).json();
   const firefox = await (await fetch(`${baseUrl}?tech=firefox`)).json()
 
   return {
@@ -108,7 +108,7 @@ export const getServerSideProps = async () => {
       prettier: prettier.date,
       ts: ts.date,
       webstorm: webstorm.date,
-      vscode: vscode.date,
+      oni: oni.date,
       firefox: firefox.date,
     }
   }
